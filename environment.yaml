@@ -34,6 +34,7 @@ dependencies:
       - pillow==11.3.0
       - scikit-learn==1.7.1
       - statsmodels==0.14.5
+  - sympy
       - networkx==3.4.2
       - gudhi==3.11.0
       - copulas==0.12.3
@@ -44,3 +45,4 @@ dependencies:
 #   - pycuda==2025.1.1
 #   - torch==2.7.1
 #   - transformers==4.53.2
+

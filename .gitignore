@@ -31,3 +31,10 @@ config.json
 *.log
 log.txt
 log_failure.txt
+
+# Local state / backups / logs
+*.dat
+*.dat.bak
+*.log
+log.txt
+log_failure.txt

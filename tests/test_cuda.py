@@ -1,3 +1,7 @@
-import pycuda.driver as cuda
-import pycuda.autoinit
-print(cuda.Device.count())  # Should print the number of GPUs
+﻿import pytest
+
+cuda = pytest.importorskip("pycuda.driver", reason="PyCUDA is optional and not required for CPU-only runtime.")
+
+
+def test_cuda_imports():
+    assert cuda is not None

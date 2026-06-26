@@ -1,4 +1,4 @@
-# UAS Survey Tool v2.0
+﻿# UAS Survey Tool v2.0
 
 Desktop GIS planning tool for loading an AOI from KMZ/KML, generating GCP/VCP layouts, downloading terrain data, and exporting survey deliverables.
 
@@ -47,7 +47,7 @@ $env:OPENTOPO_API_KEY="your-api-key"
 python bootstrap_main.py
 ```
 
-2. Create a config file from [config.example.json](/C:/Users/gabri/Documents/UAS_Survey_Tool_v2.0/config.example.json):
+2. Create a config file from [config.example.json](config.example.json):
 
 ```powershell
 Copy-Item config.example.json config.json
@@ -93,3 +93,4 @@ If `pytest` is not installed in the active interpreter, install it first or acti
 
 - `UAS_Survey_Tool_v2.spec` and `bootstrap_main.spec` now resolve GIS runtime paths from the active environment instead of a hardcoded local machine path.
 - `build_and_sign_windows.py` now defaults to the current project directory.
+

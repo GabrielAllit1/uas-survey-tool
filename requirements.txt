@@ -36,3 +36,4 @@ pyinstaller-hooks-contrib==2025.8
 # torch==2.7.1
 # transformers==4.53.2
 # tokenizers==0.21.2
+sympy

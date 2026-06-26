@@ -1,6 +1,13 @@
-# bootstrap_main.py
+﻿# bootstrap_main.py
 from __future__ import annotations
 import sys
+import os
+
+# Preload Python XML DLL stack before GDAL/PROJ/Qt/Matplotlib modify DLL search behavior.
+# This prevents intermittent pyexpat DLL load failures on Windows Conda builds.
+os.environ.setdefault("MPLBACKEND", "Agg")
+import pyexpat  # noqa: F401
+import plistlib  # noqa: F401
 import logging
 import importlib
 from PyQt6.QtWidgets import QApplication
@@ -14,7 +21,7 @@ ENTRY_CLASSES = ("UASWindow", "MainWindow", "ModernUI", "UASSurveyMainWindow", "
 ENTRY_FUNCS = ("main", "run", "start", "launch", "launch_ui")
 
 def main() -> int:
-    LOGGER.info("Starting UAS Survey Tool…")
+    LOGGER.info("Starting UAS Survey Toolâ€¦")
     app = QApplication.instance() or QApplication(sys.argv)
 
     ui = importlib.import_module("modern_ui")
@@ -45,3 +52,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

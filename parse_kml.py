@@ -1,4 +1,4 @@
-# parse_kml.py
+﻿# parse_kml.py
 from __future__ import annotations
 
 import io
@@ -71,7 +71,7 @@ def _extract_coords(text: str) -> List[Tuple[float, float]]:
         last = p
     return out
 
-def _close_ring_if_needed(ring: List[Tuple[float, float]]] ) -> List[Tuple[float, float]]:
+def _close_ring_if_needed(ring: List[Tuple[float, float]]) -> List[Tuple[float, float]]:
     if len(ring) >= 3 and ring[0] != ring[-1]:
         ring = ring + [ring[0]]
     return ring
@@ -170,3 +170,4 @@ def to_lonlat_tuples(geometries: Iterable[Iterable[Tuple[float, float]]]) -> Lis
     Keeps outputs consistently (lon, lat).
     """
     return [list(ring) for ring in geometries]
+
