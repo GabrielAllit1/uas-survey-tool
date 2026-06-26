@@ -47,3 +47,18 @@ Thumbs.db
 **/include/
 **/Library/
 **/pyvenv.cfg
+# Local API/key notes - never publish
+opentopography_api.txt
+the final solution that worked with key.txt
+
+# Local/generated geospatial data
+COP30_*.tif
+SRTMGL1_*.tif
+*.tiff
+
+# Generated reports/diagnostics
+survey_report.pdf
+temp_diagnostics.png
+
+# Windows metadata
+desktop.ini
