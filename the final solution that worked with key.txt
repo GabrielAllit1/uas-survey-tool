@@ -1,0 +1,36 @@
+    Directory: C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0                                                                                                                                                                                                                                                                      Mode                 LastWriteTime         Length Name                                                                  ----                 -------------         ------ ----                                                                  d-----          5/9/2025   6:38 PM                UAS_Survey_Tool_Exe_Staging                                                                                                                                                                                                                                                                                           (uas_survey_tool_fresh) PS C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0> Copy-Item -Path "dist\UASSurveyTool.exe" -Destination ".\UAS_Survey_Tool_Exe_Staging"
+>> Copy-Item -Path "about.txt", "license.txt", "README.md", "Read Me.txt", "Quick_Start_Guide.pdf" -Destination ".\UAS_Survey_Tool_Exe_Staging"
+>> Copy-Item -Path "license_data.dat", "last_check.dat", "secure_key.dat" -Destination ".\UAS_Survey_Tool_Exe_Staging"
+>> Copy-Item -Path "Software_License_Agreement_UAS_Survey_Tool_MasTec.pdf" -Destination ".\UAS_Survey_Tool_Exe_Staging"
+Copy-Item : Cannot find path 'C:\Users\GAllit\OneDrive -
+Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0\Software_License_Agreement_UAS_Survey_Tool_MasTec.pdf'
+because it does not exist.
+At line:4 char:1
++ Copy-Item -Path "Software_License_Agreement_UAS_Survey_Tool_MasTec.pd ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\GAllit...Tool_MasTec.pdf:String) [Copy-Item], ItemNotFoundExce
+   ption
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.CopyItemCommand
+
+(uas_survey_tool_fresh) PS C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0> Compress-Archive -Path ".\UAS_Survey_Tool_Exe_Staging\*" -DestinationPath "..\UAS_Survey_Tool_v2.0_Exe.zip" -Force
+(uas_survey_tool_fresh) PS C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0> Expand-Archive -Path "..\UAS_Survey_Tool_v2.0_Exe.zip" -DestinationPath ".\TempExtract" -Force
+>> dir ".\TempExtract"
+
+
+    Directory: C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0\TempExtract
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----         4/17/2025  12:33 PM            152 about.txt
+-a----         4/29/2025   5:06 PM             19 last_check.dat
+-a----         4/10/2025  12:11 PM            223 license.txt
+-a----         4/29/2025   5:06 PM             83 license_data.dat
+-a----         4/20/2025   6:32 PM         189178 Quick_Start_Guide.pdf
+-a----         4/27/2025   5:37 PM           1168 Read Me.txt
+-a----         4/17/2025  12:34 PM           2304 README.md
+-a----          5/7/2025  12:17 PM             14 secure_key.dat
+-a----          5/8/2025  10:55 AM      321731226 UASSurveyTool.exe
+
+
+(uas_survey_tool_fresh) PS C:\Users\GAllit\OneDrive - Mastec\Desktop\UAS_Survey_Tool_v2.0\UAS_Survey_Tool_v2.0>

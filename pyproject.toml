@@ -1,0 +1,21 @@
+[tool.ruff]
+line-length = 120
+extend-ignore = ["B002"]   # suppress “ambiguous boolean” rule everywhere
+exclude = [
+  ".git",
+  "__pycache__",
+  "uas_survey_tool_v2/Lib",
+  "build",
+  "dist",
+]
+
+[tool.flake8]
+max-line-length = 120
+ignore = ["B002"]
+exclude = [
+  "uas_survey_tool_v2/Lib",
+  "Backup",
+  ".git",
+  "build",
+  "dist"
+]

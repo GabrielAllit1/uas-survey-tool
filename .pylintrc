@@ -1,0 +1,9 @@
+[MASTER]
+# disable ambiguous-bool-comparison (W0125)
+disable = W0125
+
+[FORMAT]
+max-line-length = 120
+
+[MESSAGES CONTROL]
+# you can disable other messages you find noisy here

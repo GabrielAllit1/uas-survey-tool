@@ -37,3 +37,13 @@ license_key_log.csv
 Thumbs.db
 .vscode/
 .idea/
+
+# Accidentally copied Python/Conda environments
+**/site-packages/
+**/Lib/site-packages/
+**/lib/site-packages/
+**/Scripts/
+**/Include/
+**/include/
+**/Library/
+**/pyvenv.cfg

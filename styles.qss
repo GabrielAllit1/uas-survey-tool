@@ -1,0 +1,9 @@
+﻿QMainWindow { background-color: #1E3A8A; }
+QLabel { font-size: 14px; color: #FFFFFF; padding: 5px; }
+QLineEdit { font-size: 14px; padding: 6px; border: 1px solid #4B5563; border-radius: 4px; background-color: #374151; color: #FFFFFF; }
+QLineEdit:focus { border: 1px solid #3B82F6; }
+QPushButton { font-size: 14px; padding: 8px; border: none; border-radius: 6px; background-color: #3B82F6; color: #FFFFFF; }
+QPushButton:hover { background-color: #2563EB; }
+QScrollArea { border: none; background-color: #1E3A8A; }
+QFormLayout { margin: 15px; }
+QToolTip { font-size: 12px; color: #FFFFFF; background-color: #4B5563; border: none; padding: 4px; border-radius: 4px; }
