@@ -24,3 +24,10 @@ config.json
 
 *.tif
 *.zip
+
+# Local state / backups / logs
+*.dat
+*.dat.bak
+*.log
+log.txt
+log_failure.txt
