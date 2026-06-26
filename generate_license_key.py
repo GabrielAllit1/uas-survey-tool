@@ -3,14 +3,27 @@ import hmac
 import hashlib
 import json
 import os
+from pathlib import Path
 
 def load_secret_key():
-    key_path = os.path.join(os.path.dirname(__file__), 'secure_key.dat')
-    if not os.path.exists(key_path):
-        print("secure_key.dat not found, using default key.")
-        return b"XYZ789ABC"
-    with open(key_path, 'rb') as key_file:
-        return key_file.read().strip()  # Remove extra spaces or newlines
+    env_secret = os.getenv("UAS_LICENSE_SECRET")
+    if env_secret:
+        return env_secret.encode("utf-8")
+
+    configured_key_path = os.getenv("UAS_LICENSE_SECRET_FILE")
+    candidates = []
+    if configured_key_path:
+        candidates.append(Path(configured_key_path))
+    candidates.append(Path(__file__).parent / 'secure_key.dat')
+
+    for key_path in candidates:
+        if key_path.exists():
+            with open(key_path, 'rb') as key_file:
+                return key_file.read().strip()
+    raise RuntimeError(
+        "No license signing secret found. "
+        "Set UAS_LICENSE_SECRET or UAS_LICENSE_SECRET_FILE before generating keys."
+    )
 
 SECRET_KEY = load_secret_key()
 

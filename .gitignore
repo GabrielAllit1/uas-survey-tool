@@ -1,64 +1,26 @@
-# Python
+.pytest_cache/
 __pycache__/
 *.pyc
-.pytest_cache/
-.venv/
-venv/
-env/
 
-# Build outputs
 build/
 dist/
 dist_release/
-*.spec.bak
+uas_survey_tool_v2/
 
-# Logs
-*.log
-log.txt
-log_failure.txt
-logs/
-
-# Local caches
 dem_cache/
 dsm_cache/
+logs/
+*.log
 
-# Secrets / local license state
+*.dat
+*.key
+license_key_log.csv
 secure_key.dat
 license_data.dat
-license_data.dat.bak
 last_check.dat
-last_check.dat.bak
-license_key_log.csv
-.env
-*.key
-
-# OS/editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Accidentally copied Python/Conda environments
-**/site-packages/
-**/Lib/site-packages/
-**/lib/site-packages/
-**/Scripts/
-**/Include/
-**/include/
-**/Library/
-**/pyvenv.cfg
-# Local API/key notes - never publish
 opentopography_api.txt
-the final solution that worked with key.txt
+config.json
+.env
 
-# Local/generated geospatial data
-COP30_*.tif
-SRTMGL1_*.tif
-*.tiff
-
-# Generated reports/diagnostics
-survey_report.pdf
-temp_diagnostics.png
-
-# Windows metadata
-desktop.ini
+*.tif
+*.zip

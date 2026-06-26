@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import sys
 import os
+from pathlib import Path
 from typing import Optional
 
 from PyQt6.QtCore import Qt, QSettings, QMetaObject, QObject, QThread
@@ -73,8 +75,46 @@ class APIKeyManager(QObject):
     """Thread-safe singleton fetching/caching the OpenTopography key."""
     _SETTINGS_GROUP = "APIKeys"
     _KEY_NAME = "OpenTopography"
+    _CONFIG_ENV_VAR = "UAS_SURVEY_TOOL_CONFIG"
     _cache: Optional[str] = None
-    _DEFAULT_API_KEY = "e1d1687702fdc48744f29e0d52503e3f"  # Provided API key
+
+    @classmethod
+    def _config_dir(cls) -> Path:
+        return Path.home() / ".uas_survey_tool"
+
+    @classmethod
+    def _candidate_config_paths(cls) -> list[Path]:
+        configured = os.getenv(cls._CONFIG_ENV_VAR)
+        paths: list[Path] = []
+        if configured:
+            paths.append(Path(configured))
+        paths.append(Path.cwd() / "config.json")
+        paths.append(cls._config_dir() / "config.json")
+        return paths
+
+    @classmethod
+    def _read_config_file(cls) -> Optional[str]:
+        for path in cls._candidate_config_paths():
+            try:
+                if not path.exists():
+                    continue
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, dict):
+                    key = data.get("opentopography_api_key")
+                    if isinstance(key, str) and key.strip():
+                        return key.strip()
+            except Exception:
+                continue
+        return None
+
+    @classmethod
+    def _write_config_file(cls, key: str) -> None:
+        target = cls._config_dir() / "config.json"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "opentopography_api_key": key,
+        }
+        target.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
     @classmethod
     def _read_settings(cls) -> Optional[str]:
@@ -93,28 +133,29 @@ class APIKeyManager(QObject):
 
     @classmethod
     def opentopo(cls, parent=None) -> Optional[str]:
-        """Return the cached key or use the default/provided key."""
+        """Return the cached OpenTopography key from env, config, settings, or prompt."""
         if cls._cache:
             return cls._cache
 
-        # 1) Check environment variable
+        # 1) Environment variable
         key = os.getenv("OPENTOPO_API_KEY")
-        if key:
-            cls._cache = key
+        if key and key.strip():
+            cls._cache = key.strip()
             return cls._cache
 
-        # 2) Check settings
+        # 2) Config file
+        config_key = cls._read_config_file()
+        if config_key:
+            cls._cache = config_key
+            return cls._cache
+
+        # 3) Application settings
         stored = cls._read_settings()
         if stored:
             cls._cache = stored
             return cls._cache
 
-        # 3) Use provided default key
-        cls._cache = cls._DEFAULT_API_KEY
-        cls._write_settings(cls._cache)
-        return cls._cache
-
-        # 4) Fallback to GUI dialog (only if needed)
+        # 4) Prompt the user on first use
         app = QApplication.instance() or QApplication(sys.argv)
         if QThread.currentThread() is app.thread():
             key, save = _APIKeyDialog.get(parent)
@@ -132,7 +173,10 @@ class APIKeyManager(QObject):
             )
             key, save = key_holder[0], save_holder[0]
 
+        if key:
+            key = key.strip()
         if key and save:
             cls._write_settings(key)
-        cls._cache = key
+            cls._write_config_file(key)
+        cls._cache = key if key else None
         return cls._cache

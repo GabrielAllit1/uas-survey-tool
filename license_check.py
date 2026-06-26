@@ -23,18 +23,25 @@ logging.basicConfig(
 )
 
 def load_secret_key():
-    """Load the secret key from secure_key.dat."""
+    """Load the license signing secret from env or secure_key.dat."""
     try:
-        if getattr(sys, '_MEIPASS', None):
-            key_path = Path(sys._MEIPASS) / 'secure_key.dat'
-            logging.debug(f"Looking for secure_key.dat in PyInstaller temp dir: {key_path}")
-        else:
-            key_path = Path(__file__).parent / 'secure_key.dat'
-            logging.debug(f"Looking for secure_key.dat in script dir: {key_path}")
+        env_secret = os.getenv("UAS_LICENSE_SECRET")
+        if env_secret:
+            logging.debug("Loaded license secret from UAS_LICENSE_SECRET.")
+            return env_secret.encode("utf-8")
 
-        if not key_path.exists():
-            logging.warning("secure_key.dat not found, using default key.")
-            return b"XYZ789ABC"
+        configured_key_path = os.getenv("UAS_LICENSE_SECRET_FILE")
+        candidates = []
+        if configured_key_path:
+            candidates.append(Path(configured_key_path))
+        if getattr(sys, '_MEIPASS', None):
+            candidates.append(Path(sys._MEIPASS) / 'secure_key.dat')
+        candidates.append(Path(__file__).parent / 'secure_key.dat')
+
+        key_path = next((path for path in candidates if path.exists()), None)
+        if key_path is None:
+            logging.warning("No license secret configured.")
+            return None
 
         with open(key_path, 'rb') as key_file:
             secret_key = key_file.read().strip()
@@ -45,13 +52,21 @@ def load_secret_key():
             return secret_key
     except Exception as e:
         logging.error(f"Failed to load secure_key.dat: {e}")
-        return b"XYZ789ABC"
+        return None
 
 SECRET_KEY = load_secret_key()
+
+
+def _license_storage_path() -> Path:
+    support_dir = Path.home() / ".uas_survey_tool"
+    support_dir.mkdir(parents=True, exist_ok=True)
+    return support_dir / "license_data.dat"
 
 def validate_license_key(license_key):
     """Validate the license key against secure_key.dat."""
     try:
+        if not SECRET_KEY:
+            return False, "License validation is not configured."
         logging.debug(f"Validating license key: {license_key}")
         payload_b64, signature = license_key.split(".")
         payload_b64_no_padding = payload_b64.rstrip("=")
@@ -92,11 +107,13 @@ def prompt_license_key():
     app = QApplication(sys.argv)
     try:
         # Load stored license key if exists
-        license_file = Path(__file__).parent / 'license_data.dat'
+        license_file = _license_storage_path()
+        legacy_license_file = Path(__file__).parent / 'license_data.dat'
         logging.debug(f"Checking for stored license at: {license_file}")
-        if license_file.exists():
+        read_path = license_file if license_file.exists() else legacy_license_file
+        if read_path.exists():
             # Use utf-8-sig here to strip BOM if present
-            with open(license_file, 'r', encoding='utf-8-sig') as f:
+            with open(read_path, 'r', encoding='utf-8-sig') as f:
                 stored_key = f.read().strip()
                 logging.debug(f"Loaded stored license key: {stored_key}")
                 is_valid, message = validate_license_key(stored_key)

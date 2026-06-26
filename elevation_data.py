@@ -19,8 +19,6 @@ try:
 except Exception:
     rasterio = None  # optional; only used if you later add a local DEM fallback
 
-from api_key_manager import APIKeyManager  # classmethod .opentopo()
-
 # -----------------------------------------------------------------------------
 # Logging
 # -----------------------------------------------------------------------------
@@ -153,8 +151,6 @@ def get_srtm_elevation_bulk(
         # Choose dataset if unset
         dataset = dataset or _pick_dataset(norm_latlon)
 
-        # API key (not required by OpenTopoData, but harmless if you proxy or swap services later)
-        api_key = APIKeyManager.opentopo() or ""
         base_url = f"https://api.opentopodata.org/v1/{dataset}"
 
         cache = _load_cache()

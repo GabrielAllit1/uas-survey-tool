@@ -155,6 +155,18 @@ def fetch_dem(
                     return None, 291.0
     return None, 291.0
 
+
+class DEMDownloader:
+    """Compatibility wrapper retained for older tests and callers."""
+
+    def __init__(self, out_dir: Path | str = ".") -> None:
+        self.out_dir = Path(out_dir)
+
+    def download_dem(self, kmz_path: str):
+        if not kmz_path or not os.path.exists(kmz_path):
+            return None
+        raise NotImplementedError("KMZ-driven DEM downloads are handled through MainLogic.download_dem().")
+
 if __name__ == "__main__":
     import sys
     from PyQt6.QtWidgets import QApplication

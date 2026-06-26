@@ -119,5 +119,5 @@ if __name__ == "__main__":
     polygon_coords = [(-122.5, 37.7), (-122.45, 37.7), (-122.45, 37.75), (-122.5, 37.75), (-122.5, 37.7)]
     # Use OpenTopoData (free, 100pts/sec) for "virtual raster"
     x, y, z = synthesize_virtual_dem(polygon_coords, spacing_m=90, plot=True)
-    # To download a true raster from OpenTopography (needs API key), uncomment below:
-    # tiff_path = synthesize_virtual_dem(polygon_coords, use_opentopo=True, api_key="e1d1687702fdc48744f29e0d52503e3f")
+    # To download a true raster from OpenTopography (needs API key), pass your own key:
+    # tiff_path = synthesize_virtual_dem(polygon_coords, use_opentopo=True, api_key="YOUR_API_KEY")

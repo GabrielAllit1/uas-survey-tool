@@ -632,7 +632,8 @@ class MainLogic:
         sequence_type: str,
         weights: Optional[List[float]],
         dem_path: Optional[str],
-        dsm_path: Optional[str]
+        dsm_path: Optional[str],
+        **_: object,
     ):
         if not self.crs:
             self.crs = deduce_project_crs(self.polygon_coords, fallback="EPSG:4326")

@@ -118,7 +118,7 @@ def create_zip(exe_path: Path, dist_dir: Path, metadata: dict, readme_path: Path
 
 def main():
     parser = argparse.ArgumentParser(description="Build, sign, and package UAS Survey Tool")
-    parser.add_argument("--project-dir", default=r"C:\Users\gabri\Documents\UAS_Survey_Tool_v2.0")
+    parser.add_argument("--project-dir", default=str(Path(__file__).resolve().parent))
     parser.add_argument("--spec-file", default="UAS_Survey_Tool_v2.spec")
     parser.add_argument("--exe-name", help="Optional exe name to pick in dist/")
     parser.add_argument("--cert-thumbprint", help="Optional SHA1 thumbprint for code signing")

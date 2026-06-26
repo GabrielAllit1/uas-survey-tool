@@ -1,11 +1,28 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+import os
+import sys
+from pathlib import Path
+
+project_root = Path.cwd()
+env_root = Path(os.environ.get("CONDA_PREFIX", sys.prefix))
+
+gdal_share = env_root / "Library" / "share" / "gdal"
+proj_share = env_root / "Library" / "share" / "proj"
+library_bin = env_root / "Library" / "bin"
 
 a = Analysis(
     ['bootstrap_main.py'],
     pathex=[],
     binaries=[],
-    datas=[('modern_ui.py', '.'), ('main_logic.py', '.'), ('proj_env.py', '.'), ('set_gdal_env.py', '.'), ('C:\\ProgramData\\miniconda3\\envs\\uas_survey_tool_v2\\Library\\share\\gdal', 'gdal'), ('C:\\ProgramData\\miniconda3\\envs\\uas_survey_tool_v2\\Library\\share\\proj', 'proj'), ('C:\\ProgramData\\miniconda3\\envs\\uas_survey_tool_v2\\Library\\bin', 'Library/bin')],
+    datas=[
+        ('modern_ui.py', '.'),
+        ('main_logic.py', '.'),
+        ('proj_env.py', '.'),
+        ('set_gdal_env.py', '.'),
+    ] + ([(str(gdal_share), 'gdal')] if gdal_share.exists() else [])
+      + ([(str(proj_share), 'proj')] if proj_share.exists() else [])
+      + ([(str(library_bin), 'Library/bin')] if library_bin.exists() else []),
     hiddenimports=['rasterio', 'rasterio.sample', 'rasterio.mask', 'osgeo', 'osgeo.gdal', 'osgeo.ogr', 'osgeo.osr', 'PyQt6', 'geopandas', 'numpy', 'pyproj', 'shapely'],
     hookspath=['.'],
     hooksconfig={},

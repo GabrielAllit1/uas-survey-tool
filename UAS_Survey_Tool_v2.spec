@@ -16,7 +16,7 @@ except NameError:
 entry_script = str(PRJ / "bootstrap_main.py")
 
 # --- Force DLL search to our UAS env only -----------------------------------
-ENV = Path(os.environ.get("CONDA_PREFIX", r"C:\ProgramData\miniconda3\envs\uas_survey_tool_v2"))
+ENV = Path(os.environ.get("CONDA_PREFIX", sys.prefix))
 
 def _rebuild_path(env: Path):
     bad_tokens = ["arbor_analyzer"]  # exclude foreign envs
@@ -87,10 +87,6 @@ add_dlls(qt6_bin, "PyQt6/Qt6/bin")
 for folder in [
     PRJ / "assets",
     PRJ / "proj",
-    PRJ / "dem_cache",
-    PRJ / "dsm_cache",
-    PRJ / "logs",
-    PRJ / "dist_release",   # harmless if missing
 ]:
     if folder.exists():
         datas.append((str(folder), folder.name))
@@ -108,7 +104,6 @@ for f in [
     "about.txt",
     "license.txt",
     "issues.json",
-    "opentopography_api.txt",
     "app.manifest",  # only as data; DO NOT pass to EXE(version=...) (that expects VSVersionInfo, not XML)
 ]:
     p = PRJ / f
