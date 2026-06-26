@@ -51,5 +51,27 @@ def main() -> int:
     return 1
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except Exception:
+        import traceback
+        from pathlib import Path
 
+        crash_text = traceback.format_exc()
+        crash_dir = Path.cwd() / "logs"
+        crash_dir.mkdir(exist_ok=True)
+        crash_path = crash_dir / "packaged_crash.log"
+        crash_path.write_text(crash_text, encoding="utf-8")
+
+        try:
+            from PyQt6.QtWidgets import QApplication, QMessageBox
+            app = QApplication.instance() or QApplication([])
+            QMessageBox.critical(
+                None,
+                "UAS Survey Tool failed to start",
+                f"{crash_text}\n\nSaved to:\n{crash_path}"
+            )
+        except Exception:
+            pass
+
+        raise

@@ -38,3 +38,10 @@ log_failure.txt
 *.log
 log.txt
 log_failure.txt
+
+# Windows/generated local files
+desktop.ini
+survey_report.pdf
+temp_diagnostics.png
+*_debug.spec
+packaged_crash.log
