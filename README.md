@@ -94,3 +94,8 @@ If `pytest` is not installed in the active interpreter, install it first or acti
 - `UAS_Survey_Tool_v2.spec` and `bootstrap_main.spec` now resolve GIS runtime paths from the active environment instead of a hardcoded local machine path.
 - `build_and_sign_windows.py` now defaults to the current project directory.
 
+## Related SALT19 UAS Project
+
+For browser-based preflight and mission intelligence, see **AeroClear by SALT19** — weather, GNSS/Kp context, nearby crewed-aircraft awareness, terrain/AOI planning, aircraft limits, launch-window scoring, and mission reports.
+
+https://salt19.com/aeroclear/?utm_source=github&utm_medium=repository&utm_campaign=aeroclear_growth_20260812&utm_content=uas_survey_tool_readme
