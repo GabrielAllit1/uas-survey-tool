@@ -1,0 +1,44 @@
+name: Public PR control-plane guard
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  guard:
+    name: Public PR control-plane guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Reject external control-plane changes
+        shell: bash
+        env:
+          BASE_REPO: ${{ github.repository }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "$HEAD_REPO" == "$BASE_REPO" ]]; then
+            echo "Same-repository PR; trusted repository branch."
+            exit 0
+          fi
+
+          forbidden=0
+          while IFS= read -r path; do
+            case "$path" in
+              .github/workflows/*|.github/actions/*|.github/CODEOWNERS)
+                echo "::error file=$path::External fork PRs may not modify repository control-plane files."
+                forbidden=1
+                ;;
+            esac
+          done < <(gh api --paginate "repos/$BASE_REPO/pulls/$PR_NUMBER/files" --jq '.[].filename')
+
+          if [[ "$forbidden" -ne 0 ]]; then
+            exit 1
+          fi
+          echo "External PR does not modify protected control-plane paths."
