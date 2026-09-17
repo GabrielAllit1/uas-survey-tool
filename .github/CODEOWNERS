@@ -1,0 +1,4 @@
+# Repository control-plane ownership
+/.github/workflows/** @GabrielAllit1
+/.github/actions/** @GabrielAllit1
+/.github/CODEOWNERS @GabrielAllit1
